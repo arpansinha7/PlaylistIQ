@@ -1,122 +1,144 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import extractPlaylistId from './utils/youtube';
+import loadPlaylist from './services/playlistAPI';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const [ playlistUrl, setPlaylistUrl ] = useState('');
+  const [ videos, setVideos ] = useState([]);
+  const [ error, setError ] = useState('');
+  const [ loading, setLoading ] = useState(false);
+
+  const handleLoadPlaylist = async () => {
+
+    setError('');
+    setVideos([]);
+
+    const playlistId = extractPlaylistId(playlistUrl);
+
+    if(!playlistId)
+    {
+      setError('Please enter a valid YouTube playlist URL.');
+      return;
+    }
+
+    try
+    {
+      setLoading(true);
+      const data = await loadPlaylist(playlistId);
+
+      setVideos(data.videos);
+    }
+    catch(err)
+    {
+      setError(err.message);
+    }
+    finally
+    {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <nav className='navbar'>
+        <div className='brand'>
+          <div className='logo'></div>
+          <span>PlaylistIQ</span>
         </div>
-        <div>
-          <h1>Get started</h1>
+
+        <button className='menu-button'>
+          ☰
+        </button>  
+      </nav>
+      { videos.length === 0 ? (
+      <main className='entry-page'>
+        <section className='hero'>
+          <h1>Understand your YouTube playlists</h1>
+
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            Ask questions and get answers from the content inside your playlist.
           </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
+          <div className='playlist-input'>
+            
+            <input
+              type='text'
+              value={playlistUrl}
+              onChange={(e) => setPlaylistUrl(e.target.value)}
+              placeholder='Paste your YouTube playlist URL'
+            />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+            <button onClick={handleLoadPlaylist}>
+              {loading ? 'Loading...' : 'Load Playlist'}
+            </button>
+          </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+          {error && (
+            <p className='error'>
+              {error}
+            </p>
+          )}
+        </section>
+      </main>
+      ) : (
+        <main className='workspace'>
+          <aside className='playlist'>
+            <h2>Playlist</h2>
+
+            {videos.map((video) => (
+              <div className='video' key={video.videoId}>
+                <img src={video.thumbnail} alt={video.title} />
+
+                <div>
+                  <h3>{video.title}</h3>
+                </div>
+              </div>
+            ))}
+          </aside>
+
+          <section className='qa'>
+            <h2>Ask your playlist</h2>
+            
+            <div className='question-box'>
+              <input
+                type='text'
+                placeholder='Ask a question about this playlist...'
+              />
+
+              <button>Ask</button>
+             </div>
+
+             <div className='answer'>
+              <h3>Answer</h3>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Obcaecati, minima. Sint delectus nobis, sapiente sequi 
+                quidem maiores ut dolorem unde perspiciatis distinctio 
+                harum officia ad dolorum tenetur. Alias, adipisci voluptatum?
+              </p>
+             </div>
+
+             <div className='sources'>
+              <h3>Sources</h3>
+
+              <div className='source'>
+                <span>Introduction to React</span>
+                <span>04:32 -</span>
+              </div>
+
+              <div className='source'>
+                <span>React state & props</span>
+                <span>12:18 -</span>
+              </div>
+             </div>
+          </section>
+        </main>
+      )}
     </>
-  )
+  );
 }
 
 export default App
