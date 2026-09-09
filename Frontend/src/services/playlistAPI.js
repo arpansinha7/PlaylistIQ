@@ -1,6 +1,6 @@
 const loadPlaylist = async (playlistId) => {
     
-    const response = await fetch("http://localhost:3000/api/youtube/playlist", {
+    const response = await fetch("http://localhost:8080/api/youtube/playlist", {
 
         method: "POST",
         headers: {
