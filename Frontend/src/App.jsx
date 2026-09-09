@@ -15,13 +15,15 @@ function App() {
     setError('');
     setVideos([]);
 
-    const playlistId = extractPlaylistId(playlistUrl);
+    const result = extractPlaylistId(playlistUrl);
 
-    if(!playlistId)
+    if(!result.playlistId)
     {
-      setError('Please enter a valid YouTube playlist URL.');
+      setError(result.error);
       return;
     }
+
+    const playlistId = result.playlistId;
 
     try
     {
