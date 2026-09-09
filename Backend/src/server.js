@@ -1,4 +1,3 @@
-console.log("File Started");
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
@@ -8,6 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
 
 app.post("/api/youtube/playlist", async (req, res) => {
 
@@ -58,6 +58,24 @@ app.post("/api/youtube/playlist", async (req, res) => {
 
     }while(nextPageToken);
 
+    const aiResponse = await fetch('http://localhost:8000/analyze', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            playlistId,
+            videos: allVideos
+        })
+    });
+
+    const aiData = await aiResponse.json();
+
+    if(!aiResponse.ok)
+    {
+        return res.status(aiResponse.status).json(aiData);
+    }
+    console.log(aiData);
         res.json({
             playlistId,
             videos: allVideos
