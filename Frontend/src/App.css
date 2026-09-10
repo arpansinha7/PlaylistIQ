@@ -121,6 +121,14 @@ body {
   opacity: 0.85;
 }
 
+.video h3 {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .error {
   margin-top: 16px;
   color: #c62828;
@@ -267,4 +275,47 @@ body {
 
 .source span:last-child {
   color: #686d75;
+}
+
+.unavailable-message {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin: 16px 0;
+}
+
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playlist-header button {
+  padding: 7px 12px;
+  border: 1px solid #000;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.playlist-header button:hover {
+  background: #333;
+}
+
+.playlist > button {
+  width: 100%;
+  padding: 10px;
+  margin: 12px 0;
+  border: 1px solid #000;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.playlist > button:hover {
+  background: #333;
 }

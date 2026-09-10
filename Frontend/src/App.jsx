@@ -9,11 +9,25 @@ function App() {
   const [ videos, setVideos ] = useState([]);
   const [ error, setError ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ visibleCount, setVisibleCount ] = useState(50);
+
+  const availableVideos = videos.filter(video => video.available);
+  const unavailableCount = videos.length - availableVideos.length;
+  const visibleVideos = availableVideos.slice(0, visibleCount);
+
+  const handleNewPlaylist = () => {
+
+    setVideos([]);
+    setPlaylistUrl('');
+    setError('');
+    setVisibleCount(50);
+  };
 
   const handleLoadPlaylist = async () => {
 
     setError('');
     setVideos([]);
+    setVisibleCount(50);
 
     const result = extractPlaylistId(playlistUrl);
 
@@ -85,19 +99,47 @@ function App() {
         </section>
       </main>
       ) : (
+
         <main className='workspace'>
           <aside className='playlist'>
-            <h2>Playlist</h2>
+           <div className='playlist-header'>
+             <h2>Playlist</h2>
 
-            {videos.map((video) => (
-              <div className='video' key={video.videoId}>
+             <button onClick={handleNewPlaylist}>
+              + New Playlist
+             </button>
+            </div> 
+
+            {visibleVideos.map((video) => (
+              <a 
+              className='video' 
+              key={video.videoId}
+              href={`https://www.youtube.com/watch?v=${video.videoId}`}
+              target='_blank'
+              rel='noopener noreferrer'
+              >
+                  
                 <img src={video.thumbnail} alt={video.title} />
 
                 <div>
                   <h3>{video.title}</h3>
                 </div>
-              </div>
+              </a>
             ))}
+
+            {visibleCount < availableVideos.length && (
+
+              <button onClick={() => setVisibleCount(prev => prev + 50)}>
+                Show next {Math.min(50, availableVideos.length - visibleCount)}
+              </button>
+            )}
+
+            {visibleCount >= availableVideos.length && unavailableCount > 0 && (
+              <p className='unavailable-message'>
+                {unavailableCount} unavailable video
+                {unavailableCount > 1 ? 's are' : ' is'} hidden
+              </p>
+            )}
           </aside>
 
           <section className='qa'>
