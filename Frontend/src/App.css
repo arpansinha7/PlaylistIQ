@@ -36,7 +36,8 @@ body {
   background: #17191c;
 }
 
-.menu-button {
+.menu-button,
+.mode-button {
   width: 40px;
   height: 40px;
   border: none;
@@ -44,9 +45,11 @@ body {
   border-radius: 8px;
   font-size: 22px;
   cursor: pointer;
+  color: #17191c;
 }
 
-.menu-button:hover {
+.menu-button:hover,
+.mode-button:hover {
   background: #f0f1f3;
 }
 
@@ -121,12 +124,24 @@ body {
   opacity: 0.85;
 }
 
+.video {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f1f3;
+  text-decoration: none;
+  color: inherit;
+}
+
 .video h3 {
   display: -webkit-box;
   line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
 }
 
 .error {
@@ -177,25 +192,12 @@ body {
   font-size: 18px;
 }
 
-.video {
-  display: flex;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f1f3;
-}
-
 .video img {
   width: 110px;
   height: 62px;
   object-fit: cover;
   border-radius: 6px;
   flex-shrink: 0;
-}
-
-.video h3 {
-  font-size: 14px;
-  line-height: 1.4;
-  font-weight: 500;
 }
 
 .qa {
@@ -318,4 +320,105 @@ body {
 
 .playlist > button:hover {
   background: #333;
+}
+
+.dark-mode {
+  background: #111;
+  color: #fff;
+}
+
+.dark-mode .navbar {
+  background: #171717;
+  border-bottom-color: #2a2a2a;
+}
+
+.dark-mode .logo {
+  background: #fff;
+}
+
+.dark-mode .menu-button,
+.dark-mode .mode-button {
+  color: #fff;
+}
+
+.dark-mode .menu-button:hover,
+.dark-mode .mode-button:hover {
+  background: #252525;
+}
+
+.dark-mode .hero h1 {
+  color: #fff;
+}
+
+.dark-mode .hero > p {
+  color: #aaa;
+}
+
+.dark-mode .playlist-input {
+  background: #171717;
+  border-color: #2a2a2a;
+}
+
+.dark-mode .playlist-input input {
+  color: #fff;
+}
+
+.dark-mode .playlist-input input::placeholder {
+  color: #777;
+}
+
+.dark-mode .playlist {
+  background: #171717;
+  border-right-color: #2a2a2a;
+}
+
+.dark-mode .video {
+  border-bottom-color: #2a2a2a;
+}
+
+.dark-mode .qa input {
+  background: #171717;
+  color: #fff;
+  border-color: #2a2a2a;
+}
+
+.dark-mode .qa input::placeholder {
+  color: #777;
+}
+
+.dark-mode .answer p {
+  color: #aaa;
+}
+
+.dark-mode .source {
+  border-bottom-color: #2a2a2a;
+}
+
+.dark-mode .source span:last-child {
+  color: #aaa;
+}
+
+.dark-mode .unavailable-message {
+  color: #888;
+}
+
+.dark-mode .playlist-input button,
+.dark-mode .qa button,
+.dark-mode .playlist-header button,
+.dark-mode .playlist > button {
+  background: #fff;
+  color: #17191c;
+}
+
+.dark-mode .playlist-input button:hover,
+.dark-mode .qa button:hover,
+.dark-mode .playlist-header button:hover,
+.dark-mode .playlist > button:hover {
+  background: #e5e5e5;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

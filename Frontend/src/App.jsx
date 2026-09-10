@@ -10,6 +10,7 @@ function App() {
   const [ error, setError ] = useState('');
   const [ loading, setLoading ] = useState(false);
   const [ visibleCount, setVisibleCount ] = useState(50);
+  const [ darkMode, setDarkMode ] = useState(false);
 
   const availableVideos = videos.filter(video => video.available);
   const unavailableCount = videos.length - availableVideos.length;
@@ -57,16 +58,24 @@ function App() {
   };
 
   return (
-    <>
+    <div className={darkMode ? 'dark-mode' : ''}>
       <nav className='navbar'>
         <div className='brand'>
           <div className='logo'></div>
           <span>PlaylistIQ</span>
         </div>
 
+      <div className='nav-actions'>
+        <button 
+        className='mode-button'
+        onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? '☀' : '☾'}
+        </button>
         <button className='menu-button'>
           ☰
-        </button>  
+        </button>
+      </div>  
       </nav>
       { videos.length === 0 ? (
       <main className='entry-page'>
@@ -181,7 +190,7 @@ function App() {
           </section>
         </main>
       )}
-    </>
+    </div>
   );
 }
 
