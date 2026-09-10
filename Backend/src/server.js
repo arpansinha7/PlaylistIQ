@@ -58,6 +58,41 @@ app.post("/api/youtube/playlist", async (req, res) => {
 
     }while(nextPageToken);
 
+    const videoIds = allVideos.map(video => video.videoId);
+
+    const availableVideoIds = new Set();
+
+    for(let i = 0; i < videoIds.length; i += 50)
+    {
+        const batch = videoIds.slice(i, i+50);
+
+        const url = new URL(
+            'https://www.googleapis.com/youtube/v3/videos'
+        );
+
+        url.searchParams.set('part', 'id');
+        url.searchParams.set('id', batch.join(','));
+        url.searchParams.set('key', process.env.YOUTUBE_API_KEY);
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if(!response.ok)
+        {
+            return res.status(response.status).json(data);
+        }
+
+        data.items.forEach(video => {
+            availableVideoIds.add(video.id);
+        });
+
+    }
+
+    allVideos = allVideos.map(video => ({
+        ...video,
+        available: availableVideoIds.has(video.videoId)
+    }));
+
     const aiResponse = await fetch('http://localhost:8000/analyze', {
         method: 'POST',
         headers: {
