@@ -110,6 +110,20 @@ app.post("/api/youtube/playlist", async (req, res) => {
     {
         return res.status(aiResponse.status).json(aiData);
     }
+
+    const ingestResponse = await fetch('http://localhost:8000/ingest', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            playlistId,
+            videos: allVideos.map(video => ({
+                videoId: video.videoId,
+                title: video.title
+            }))
+        })
+    });
     console.log(aiData);
         res.json({
             playlistId,
