@@ -1,15 +1,20 @@
 import { useState } from 'react'
 import extractPlaylistId from './utils/youtube';
 import loadPlaylist from './services/playlistAPI';
+import askPlaylist from './services/askPlaylist';
 import './App.css'
 
 function App() {
   
   const [ playlistUrl, setPlaylistUrl ] = useState('');
+  const [ playlistId, setPlaylistId ] = useState('');
   const [ videos, setVideos ] = useState([]);
   const [ error, setError ] = useState('');
   const [ loading, setLoading ] = useState(false);
   const [ visibleCount, setVisibleCount ] = useState(50);
+  const [ userQuery, setUserQuery ] = useState('');
+  const [ answer, setAnswer ] = useState('');
+  const [ sources, setSources ] = useState([]);
   const [ darkMode, setDarkMode ] = useState(false);
 
   const availableVideos = videos.filter(video => video.available);
@@ -20,6 +25,10 @@ function App() {
 
     setVideos([]);
     setPlaylistUrl('');
+    setPlaylistId('');
+    setUserQuery('');
+    setAnswer('');
+    setSources([]);
     setError('');
     setVisibleCount(50);
   };
@@ -31,7 +40,7 @@ function App() {
     setVisibleCount(50);
 
     const result = extractPlaylistId(playlistUrl);
-
+    
     if(!result.playlistId)
     {
       setError(result.error);
@@ -39,7 +48,7 @@ function App() {
     }
 
     const playlistId = result.playlistId;
-
+    setPlaylistId(playlistId);
     try
     {
       setLoading(true);
@@ -57,6 +66,21 @@ function App() {
     }
   };
 
+  const handleAskPlaylist = async () => {
+
+    try
+    {
+      const data = await askPlaylist(playlistId, userQuery);
+
+      setAnswer(data.answer);
+      setSources(data.sources);
+    }
+    catch(error)
+    {
+      setError(error.message);
+    }
+  };
+  
   return (
     <div className={darkMode ? 'dark-mode' : ''}>
       <nav className='navbar'>
@@ -157,35 +181,31 @@ function App() {
             <div className='question-box'>
               <input
                 type='text'
+                value={userQuery}
+                onChange={(e) => setUserQuery(e.target.value)}
                 placeholder='Ask a question about this playlist...'
               />
 
-              <button>Ask</button>
+              <button onClick={handleAskPlaylist}>Ask</button>
              </div>
 
              <div className='answer'>
               <h3>Answer</h3>
 
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                Obcaecati, minima. Sint delectus nobis, sapiente sequi 
-                quidem maiores ut dolorem unde perspiciatis distinctio 
-                harum officia ad dolorum tenetur. Alias, adipisci voluptatum?
+                {answer}
               </p>
              </div>
 
              <div className='sources'>
               <h3>Sources</h3>
 
-              <div className='source'>
-                <span>Introduction to React</span>
-                <span>04:32 -</span>
-              </div>
-
-              <div className='source'>
-                <span>React state & props</span>
-                <span>12:18 -</span>
-              </div>
+                {sources.map((source, index) => (
+                    <div className='source' key={index}>
+                      <span>{source.videoId}</span>
+                      <span>{source.timestamp}</span>
+                    </div>  
+                ))}
              </div>
           </section>
         </main>

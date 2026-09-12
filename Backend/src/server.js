@@ -93,6 +93,11 @@ app.post("/api/youtube/playlist", async (req, res) => {
         available: availableVideoIds.has(video.videoId)
     }));
 
+        res.json({
+            playlistId,
+            videos: allVideos
+        });
+
     const aiResponse = await fetch('http://localhost:8000/analyze', {
         method: 'POST',
         headers: {
@@ -125,10 +130,7 @@ app.post("/api/youtube/playlist", async (req, res) => {
         })
     });
     console.log(aiData);
-        res.json({
-            playlistId,
-            videos: allVideos
-        });
+
     }
     catch(error)
     {
@@ -139,6 +141,51 @@ app.post("/api/youtube/playlist", async (req, res) => {
         });
     }
 });
+
+app.post("/api/youtube/playlist/ask", async (req, res) => {
+
+    const { playlistId, userQuery } = req.body;
+
+    if(!playlistId)
+    {
+        return res.status(400).json({
+            error: 'Playlist ID is required'
+        });
+    }
+
+    if(!userQuery?.trim())
+    {
+        return res.status(400).json({
+            error: "Please enter a valid question"
+        });
+    }
+    
+    const aiResponse = await fetch('http://localhost:8000/ask', {
+        
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            playlistId,
+            userQuery
+        })
+    });
+
+    
+    
+    if(!aiResponse.ok)
+    {
+
+        const error_text = await aiResponse.text();
+        return res.status(aiResponse.status).json(error_text)
+    }
+
+    const aiData = await aiResponse.json();
+    res.json(aiData);
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}...`);
