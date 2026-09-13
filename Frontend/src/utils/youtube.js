@@ -35,4 +35,20 @@ const extractPlaylistId = (url) => {
     }
 };
 
-export default extractPlaylistId;
+const timestampToSeconds = (timestamp) => {
+
+    const parts = timestamp.split(':').map(Number);
+
+    if(parts.length === 2)
+    {
+        return parts[0] * 60 + parts[1];
+    }
+
+    if(parts.length === 3)
+    {
+        return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    }
+
+    return 0;
+}
+export {extractPlaylistId, timestampToSeconds};

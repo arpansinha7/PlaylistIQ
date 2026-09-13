@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import extractPlaylistId from './utils/youtube';
+import { useState, useEffect, useRef } from 'react';
+import { extractPlaylistId, timestampToSeconds } from './utils/youtube';
 import loadPlaylist from './services/playlistAPI';
 import askPlaylist from './services/askPlaylist';
+import ReactMarkdown from 'react-markdown';
 import './App.css'
 
 function App() {
@@ -11,11 +12,23 @@ function App() {
   const [ videos, setVideos ] = useState([]);
   const [ error, setError ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ asking, setAsking ] = useState(false);
   const [ visibleCount, setVisibleCount ] = useState(50);
   const [ userQuery, setUserQuery ] = useState('');
-  const [ answer, setAnswer ] = useState('');
-  const [ sources, setSources ] = useState([]);
+  // const [ answer, setAnswer ] = useState('');
+  // const [ sources, setSources ] = useState([]);
+  const [ messages, setMessages ] = useState([]);
   const [ darkMode, setDarkMode ] = useState(false);
+
+  const chatRef = useRef(null);
+  const queryRef = useRef(null);
+
+  useEffect(() => {
+    if(chatRef.current)
+    {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const availableVideos = videos.filter(video => video.available);
   const unavailableCount = videos.length - availableVideos.length;
@@ -27,8 +40,9 @@ function App() {
     setPlaylistUrl('');
     setPlaylistId('');
     setUserQuery('');
-    setAnswer('');
-    setSources([]);
+    // setAnswer('');
+    // setSources([]);
+    setMessages([]);
     setError('');
     setVisibleCount(50);
   };
@@ -68,16 +82,50 @@ function App() {
 
   const handleAskPlaylist = async () => {
 
+    setError('');
+
+    const query = userQuery.trim();
+
+    if(!query)
+    {
+      return;
+    }
+
+    setMessages(prev => [
+      ...prev,
+      {
+        role: "user",
+        content: query
+      }
+    ]);
+
+    if(queryRef.current)
+    {
+      queryRef.current.style.height = '48px';
+    }
+    setUserQuery('');
+
     try
     {
+      setAsking(true);
       const data = await askPlaylist(playlistId, userQuery);
 
-      setAnswer(data.answer);
-      setSources(data.sources);
+      setMessages(prev => [
+        ...prev,
+        {
+          role: "assistant",
+          content: data.answer,
+          sources: data.sources
+        }
+      ]);
     }
     catch(error)
     {
       setError(error.message);
+    }
+    finally
+    {
+      setAsking(false);
     }
   };
   
@@ -110,7 +158,7 @@ function App() {
             Ask questions and get answers from the content inside your playlist.
           </p>
 
-          <div className='playlist-input'>
+          <div className={`playlist-input ${error ? 'input-error' : ''}`}>
             
             <input
               type='text'
@@ -119,7 +167,11 @@ function App() {
               placeholder='Paste your YouTube playlist URL'
             />
 
-            <button onClick={handleLoadPlaylist}>
+            <button 
+            onClick={handleLoadPlaylist}
+            disabled={loading}
+            >
+              {loading && <span className='loader'></span>}
               {loading ? 'Loading...' : 'Load Playlist'}
             </button>
           </div>
@@ -177,36 +229,59 @@ function App() {
 
           <section className='qa'>
             <h2>Ask your playlist</h2>
-            
+
+              <div className='chat' ref={chatRef}>
+
+                {messages.map((message, index) => (
+                  <div className={`message ${message.role}`} key={index}>
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+
+                    {message.sources && (
+
+                       <div className='sources'>
+
+                        <h3>Sources</h3>
+
+                        {message.sources.map((source, sourceIndex) => (
+
+                          <div className='source' key={sourceIndex}>
+                            <a
+                            href={`https://www.youtube.com/watch?v=${source.videoId}&t=${timestampToSeconds(source.timestamp)}`}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            >
+                              <span>{source.title}</span>
+                              <span>{source.timestamp}</span>
+                            </a>
+                        
+                          </div>
+                        ))}
+                       </div>
+                    )}
+                  </div>
+                ))}
+
+              </div>
+
             <div className='question-box'>
-              <input
-                type='text'
+              <textarea
+                ref={queryRef}
                 value={userQuery}
-                onChange={(e) => setUserQuery(e.target.value)}
+                onChange={(e) => {
+                  setUserQuery(e.target.value);
+                  e.target.style.height = 'auto';
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 140)}px`
+                }}
                 placeholder='Ask a question about this playlist...'
+                disabled={asking}
               />
 
-              <button onClick={handleAskPlaylist}>Ask</button>
+              <button onClick={handleAskPlaylist} disabled={asking}>
+                {asking && <span className='loader'></span>}
+                {asking ? 'Thinking...' : 'Ask'}
+              </button>
              </div>
 
-             <div className='answer'>
-              <h3>Answer</h3>
-
-              <p>
-                {answer}
-              </p>
-             </div>
-
-             <div className='sources'>
-              <h3>Sources</h3>
-
-                {sources.map((source, index) => (
-                    <div className='source' key={index}>
-                      <span>{source.videoId}</span>
-                      <span>{source.timestamp}</span>
-                    </div>  
-                ))}
-             </div>
           </section>
         </main>
       )}

@@ -109,6 +109,7 @@ def ask(data: dict):
     sources = [
             {
                 "videoId": result.metadata['videoId'],
+                "title": result.metadata['title'],
                 "timestamp": result.metadata['timestamp']
             }
             for result in search_results
