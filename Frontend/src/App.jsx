@@ -108,7 +108,7 @@ function App() {
     try
     {
       setAsking(true);
-      const data = await askPlaylist(playlistId, userQuery);
+      const data = await askPlaylist(playlistId, query);
 
       setMessages(prev => [
         ...prev,
@@ -234,16 +234,14 @@ function App() {
 
                 {messages.map((message, index) => (
                   <div className={`message ${message.role}`} key={index}>
+                    
                     <ReactMarkdown>{message.content}</ReactMarkdown>
 
-                    {message.sources && (
-
+                        {message.sources?.length > 0 && (
                        <div className='sources'>
-
                         <h3>Sources</h3>
 
                         {message.sources.map((source, sourceIndex) => (
-
                           <div className='source' key={sourceIndex}>
                             <a
                             href={`https://www.youtube.com/watch?v=${source.videoId}&t=${timestampToSeconds(source.timestamp)}`}
@@ -257,13 +255,14 @@ function App() {
                           </div>
                         ))}
                        </div>
-                    )}
+                    )} 
+
                   </div>
                 ))}
-
               </div>
 
             <div className='question-box'>
+
               <textarea
                 ref={queryRef}
                 value={userQuery}
@@ -281,7 +280,7 @@ function App() {
                 {asking ? 'Thinking...' : 'Ask'}
               </button>
              </div>
-
+             
           </section>
         </main>
       )}
