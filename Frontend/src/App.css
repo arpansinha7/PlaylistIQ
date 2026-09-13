@@ -10,6 +10,8 @@ body {
   color: #17191c;
 }
 
+/* Navbar */
+
 .navbar {
   height: 72px;
   display: flex;
@@ -36,6 +38,12 @@ body {
   background: #17191c;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .menu-button,
 .mode-button {
   width: 40px;
@@ -52,6 +60,8 @@ body {
 .mode-button:hover {
   background: #f0f1f3;
 }
+
+/* Entry Page */
 
 .entry-page {
   min-height: calc(100vh - 72px);
@@ -83,6 +93,8 @@ body {
   color: #686d75;
 }
 
+/* Playlist Input */
+
 .playlist-input {
   display: flex;
   width: 100%;
@@ -109,6 +121,10 @@ body {
 }
 
 .playlist-input button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   padding: 0 24px;
   border: none;
   border-radius: 10px;
@@ -124,6 +140,35 @@ body {
   opacity: 0.85;
 }
 
+/* Workspace */
+
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+/* Playlist */
+
+.playlist {
+  padding: 24px;
+  border-right: 1px solid #e6e8eb;
+  background: #ffffff;
+  overflow-y: auto;
+}
+
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playlist h2 {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
 .video {
   display: flex;
   gap: 12px;
@@ -131,6 +176,14 @@ body {
   border-bottom: 1px solid #f0f1f3;
   text-decoration: none;
   color: inherit;
+}
+
+.video img {
+  width: 110px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
 
 .video h3 {
@@ -144,61 +197,40 @@ body {
   font-weight: 500;
 }
 
-.error {
-  margin-top: 16px;
-  color: #c62828;
+.playlist-header button,
+.playlist > button {
+  border: 1px solid #000;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+.playlist-header button {
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+.playlist > button {
+  width: 100%;
+  padding: 10px;
+  margin: 12px 0;
   font-size: 14px;
 }
 
-@media (max-width: 600px) {
-  .navbar {
-    padding: 0 20px;
-  }
-
-  .entry-page {
-    padding: 40px 20px;
-  }
-
-  .playlist-input {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .playlist-input button {
-    min-height: 48px;
-  }
-
-  .hero h1 {
-    letter-spacing: -1px;
-  }
+.playlist-header button:hover,
+.playlist > button:hover {
+  background: #333;
 }
 
-.workspace {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  min-height: calc(100vh - 72px);
+.unavailable-message {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin: 16px 0;
 }
 
-.playlist {
-  padding: 24px;
-  border-right: 1px solid #e6e8eb;
-  background: #ffffff;
-  overflow-y: auto;
-}
-
-.playlist h2 {
-  margin-bottom: 20px;
-  font-size: 18px;
-}
-
-.video img {
-  width: 110px;
-  height: 62px;
-  object-fit: cover;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
+/* Q&A */
 
 .qa {
   padding: 48px;
@@ -212,18 +244,95 @@ body {
   margin-bottom: 24px;
 }
 
-.qa input {
+/* Chat */
+
+.chat {
+  overflow-y: auto;
+  max-height: 60vh;
+  padding: 8px 4px;
+}
+
+.message {
+  width: fit-content;
+  max-width: 75%;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+
+.message.user {
+  margin-left: auto;
+  background: #f0f0f0;
+  border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+  margin-right: auto;
+  background: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  border-bottom-left-radius: 4px;
+}
+
+.message > :first-child {
+  margin-top: 0;
+}
+
+.message > :last-child {
+  margin-bottom: 0;
+}
+
+/* Markdown */
+
+.message p {
+  margin: 8px 0;
+}
+
+.message ul,
+.message ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.message h1,
+.message h2,
+.message h3 {
+  margin: 12px 0 8px;
+}
+
+/* Question Box */
+
+.question-box {
+  position: relative;
   width: 100%;
-  padding: 16px;
+  margin-top: 20px;
+}
+
+.question-box textarea {
+  width: 100%;
+  min-height: 48px;
+  max-height: 140px;
+  padding: 14px 90px 14px 16px;
   border: 1px solid #dfe2e6;
   border-radius: 10px;
   outline: none;
   font-size: 16px;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: none;
+  overflow-y: auto;
 }
 
-.qa button {
-  margin-top: 12px;
-  padding: 12px 22px;
+.question-box button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 0;
+  padding: 0 16px;
   border: none;
   border-radius: 8px;
   background: #17191c;
@@ -232,95 +341,93 @@ body {
   cursor: pointer;
 }
 
-.question-box {
-  display: flex;
-  gap: 10px;
-}
-
-.question-box input {
-  flex: 1;
-}
-
-.question-box button {
-  margin-top: 0;
-}
-
-.answer {
-  margin-top: 48px;
-}
-
-.answer h3,
-.sources h3 {
-  font-size: 15px;
-  margin-bottom: 14px;
-}
-
-.answer p {
-  color: #686d75;
-  font-size: 16px;
-  line-height: 1.7;
-  max-width: 750px;
-}
+/* Sources */
 
 .sources {
   margin-top: 40px;
 }
 
+.sources h3 {
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
 .source {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid #e6e8eb;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
   font-size: 14px;
 }
 
-.source span:last-child {
-  color: #686d75;
-}
-
-.unavailable-message {
-  text-align: center;
-  font-size: 13px;
-  color: #777;
-  margin: 16px 0;
-}
-
-.playlist-header {
+.source a {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.playlist-header button {
-  padding: 7px 12px;
-  border: 1px solid #000;
-  border-radius: 6px;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.playlist-header button:hover {
-  background: #333;
-}
-
-.playlist > button {
+  justify-content: space-between;
   width: 100%;
-  padding: 10px;
-  margin: 12px 0;
-  border: 1px solid #000;
-  border-radius: 6px;
-  background: #000;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 }
 
-.playlist > button:hover {
-  background: #333;
+.source a span:first-child {
+  display: -webkit-box;
+  max-width: 80%;
+  margin-right: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-weight: 500;
 }
+
+.source a span:last-child {
+  flex-shrink: 0;
+  color: #686d75;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.source:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Error */
+
+.error {
+  margin-top: 16px;
+  color: #c62828;
+  font-size: 14px;
+}
+
+.input-error {
+  border-color: #d93025;
+  box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.12);
+}
+
+/* Loader */
+
+.loader {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark Mode */
 
 .dark-mode {
   background: #111;
@@ -382,19 +489,34 @@ body {
   border-color: #2a2a2a;
 }
 
-.dark-mode .qa input::placeholder {
+.dark-mode .message.user {
+  background: #252525;
+}
+
+.dark-mode .message.assistant {
+  background: #1c1c1c;
+  border-color: #2a2a2a;
+}
+
+.dark-mode .question-box textarea {
+  background: #171717;
+  color: #fff;
+  border-color: #2a2a2a;
+}
+
+.dark-mode .question-box textarea::placeholder {
   color: #777;
 }
 
-.dark-mode .answer p {
-  color: #aaa;
-}
-
 .dark-mode .source {
-  border-bottom-color: #2a2a2a;
+  border-color: #2a2a2a;
 }
 
-.dark-mode .source span:last-child {
+.dark-mode .source:hover {
+  background: #252525;
+}
+
+.dark-mode .source a span:last-child {
   color: #aaa;
 }
 
@@ -403,7 +525,7 @@ body {
 }
 
 .dark-mode .playlist-input button,
-.dark-mode .qa button,
+.dark-mode .question-box button,
 .dark-mode .playlist-header button,
 .dark-mode .playlist > button {
   background: #fff;
@@ -411,14 +533,33 @@ body {
 }
 
 .dark-mode .playlist-input button:hover,
-.dark-mode .qa button:hover,
+.dark-mode .question-box button:hover,
 .dark-mode .playlist-header button:hover,
 .dark-mode .playlist > button:hover {
   background: #e5e5e5;
 }
 
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* Mobile */
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .entry-page {
+    padding: 40px 20px;
+  }
+
+  .playlist-input {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .playlist-input button {
+    min-height: 48px;
+  }
+
+  .hero h1 {
+    letter-spacing: -1px;
+  }
 }
