@@ -77,7 +77,7 @@ app.post("/api/auth/register", async (req, res) => {
                 })
             }
         }
-
+        console.log(error);
         res.status(500).json({
             error: "Internal server error"
         });
@@ -126,6 +126,10 @@ app.post("/api/auth/login", async (req, res) => {
                 error: "Invalid username or password"
             });
         }
+
+        res.status(200).json({
+            message: "Login successful"
+        });
     }
     catch(error)
     {

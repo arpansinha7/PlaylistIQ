@@ -14,6 +14,12 @@ const loginUser = async (usernameOrEmail, password) => {
 
     const data = await response.json();
 
+    if(!response.ok)
+    {
+        throw new Error(data.error || "Login Failed");
+    }
+    return data;
+
 };
 
 const registerUser = async(username, password, email, first_name, middle_name, last_name) => {
@@ -37,6 +43,12 @@ const registerUser = async(username, password, email, first_name, middle_name, l
     });
 
     const data = await response.json();
+
+    if(!response.ok)
+    {
+        throw new Error(data.error || "Registration Failed");
+    }
+    return data;
 };
 
 export { registerUser, loginUser };
