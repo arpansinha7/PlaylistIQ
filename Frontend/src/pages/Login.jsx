@@ -3,6 +3,8 @@ import { Eye, EyeOff } from 'lucide-react';
 
 import { loginUser } from "../services/AutheticateUser";
 import { useNavigate } from "react-router-dom";
+import googleLogo from '../assets/google.svg';
+
 function Login()
 {
     const [ showPassword, setShowPassword ] = useState(false);
@@ -84,7 +86,21 @@ function Login()
                         Login
                     </button>
                 </form>
+                
+                <div className="oauth-divider">
+                    <span>OR</span>
+                </div>
 
+                <button
+                type="button"
+                className="google-login-btn"
+                onClick={() => {
+                    window.location.href = "http://localhost:8080/auth/google";
+                }}
+                >
+                    <img src={googleLogo} alt="Google" />
+                    Continue with Google
+                </button>
                 <p className="auth-switch">
                     Don't have an account?{" "}
                     <a href="/register">Get Started</a>
