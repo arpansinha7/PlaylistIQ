@@ -1,0 +1,92 @@
+/* How To Use */
+
+.how-to-use-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1000;
+}
+
+.how-to-use {
+    position: relative;
+
+    width: 520px;
+    max-height: 80vh;
+    overflow-y: auto;
+
+    padding: 30px;
+
+    background: white;
+    border-radius: 12px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.how-to-use-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.how-to-use h2 {
+    margin-bottom: 25px;
+}
+
+.how-to-use-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.how-to-use-step {
+    padding: 16px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.how-to-use-step h3 {
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.how-to-use-step p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+
+/* Dark Mode - How To Use */
+
+.dark-mode .how-to-use {
+    background: #1f1f1f;
+    color: #ffffff;
+}
+
+.dark-mode .how-to-use-close {
+    color: #ffffff;
+}
+
+.dark-mode .how-to-use-close:hover {
+    background: #2a2a2a;
+}
+
+.dark-mode .how-to-use-step {
+    border-color: #3a3a3a;
+}
+
+.dark-mode .how-to-use-step p {
+    color: #a6a6a6;
+}

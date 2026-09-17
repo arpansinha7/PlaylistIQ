@@ -1,0 +1,249 @@
+/* Login */
+
+.google-login-btn {
+    width: 100%;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: white;
+    color: #333;
+
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: 520;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.google-login-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.google-login-btn:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.oauth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+}
+
+.oauth-divider::before,
+.oauth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #d9d9d9;
+}
+
+.oauth-divider span {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+}
+
+.login-btn {
+    padding: 10px 16px;
+    color: #374151;
+    border-radius: 8px;
+}
+
+.login-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.login-btn:active {
+    transform: translateY(1px);
+}
+
+/* =========================
+   Authentication Page
+========================= */
+
+.auth-page {
+    min-height: calc(100vh - 72px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 24px;
+
+    background: #f9fafb;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 40px;
+
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.auth-card h1 {
+    margin: 0;
+
+    font-size: 30px;
+    letter-spacing: -0.7px;
+}
+
+.auth-subtitle {
+    margin: 10px 0 30px;
+
+    color: #6b7280;
+    font-size: 15px;
+}
+
+/* =========================
+   Form
+========================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #111827;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.form-group input::placeholder {
+    color: #9ca3af;
+}
+
+.form-group input:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+/* =========================
+   Login Button
+========================= */
+
+.auth-btn {
+    width: 100%;
+
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #111827;
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.auth-btn:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+}
+
+.auth-btn:active {
+    transform: translateY(1px);
+}
+
+/* =========================
+   Register Link
+========================= */
+
+.auth-switch {
+    margin: 24px 0 0;
+
+    text-align: center;
+
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.auth-switch a {
+    color: #111827;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-input input {
+    padding-right: 45px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    color: #6b7280;
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    color: #111827;
+}

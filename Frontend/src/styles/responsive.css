@@ -1,0 +1,24 @@
+/* Mobile */
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .entry-page {
+    padding: 40px 20px;
+  }
+
+  .playlist-input {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .playlist-input button {
+    min-height: 48px;
+  }
+
+  .hero h1 {
+    letter-spacing: -1px;
+  }
+}
