@@ -120,14 +120,6 @@ Make sure the following are installed on your system:
 - Docker
 - PostgreSQL
 
-PlaylistIQ requires the following services:
-
-- PostgreSQL
-- Qdrant
-- AI service
-- Backend
-- Frontend
-
 ### 1. Clone the Repository
 
 ```bash
@@ -211,7 +203,32 @@ Make sure PostgreSQL is installed and running.
 
 Create a PostgreSQL database and configure its credentials in `Backend/.env`.
 
-Create the required database tables using the SQL schema used by PlaylistIQ.
+Create the required database tables using the following SQL schema.
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    last_name VARCHAR(50) NOT NULL,
+    username VARCHAR(30),
+    email VARCHAR(255) NOT NULL,
+    password_hash TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_username UNIQUE (username),
+    CONSTRAINT unique_email UNIQUE (email)
+);
+
+CREATE TABLE oauth_accounts (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    provider VARCHAR(30) NOT NULL,
+    provider_user_id VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_provider_account
+        UNIQUE (provider, provider_user_id)
+);
+```
 
 ### 7. Start Qdrant
 
