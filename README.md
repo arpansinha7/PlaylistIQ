@@ -225,7 +225,7 @@ CREATE TABLE oauth_accounts (
     provider VARCHAR(30) NOT NULL,
     provider_user_id VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unique_provider_account
+    CONSTRAINT unique_google_account
         UNIQUE (provider, provider_user_id)
 );
 ```
