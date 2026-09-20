@@ -301,3 +301,11 @@ Keep the following services running simultaneously:
 - Frontend
 
 Once all services are running, open the frontend URL provided by Vite and start using PlaylistIQ.
+
+---
+
+## Note
+
+PlaylistIQ uses the Gemini API for embeddings and LLM-based response generation. The free-tier quota may be insufficient for processing larger playlists or repeated requests.
+
+For reliable usage and playlist ingestion, a paid Gemini API plan or sufficient API quota is recommended.
