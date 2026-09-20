@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_qdrant import QdrantVectorStore
+from qdrant_client import QdrantClient
 from langchain_core.documents import Document
 from openai import OpenAI
 import os, json, requests
@@ -16,6 +17,7 @@ openai_client = OpenAI(
     base_url=os.getenv('GEMINI_BASE_URL')
 )
 
+qdrant_client = QdrantClient(url='http://localhost:6333')
 @app.post('/analyze')
 def analyze(data: dict):
 
@@ -31,6 +33,11 @@ def ingest(data: dict):
     playlistId = data.get('playlistId', '')
     videos = data.get('videos', [])
 
+    collection_name = f"Playlist-{playlistId}"
+
+    if qdrant_client.collection_exists(collection_name):
+        return { "message" : "Playlist Ingested"}
+ 
     SERPAPI_API_KEY = os.getenv('SERPAPI_API_KEY')
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=400)
@@ -72,12 +79,11 @@ def ingest(data: dict):
 
         chunks = text_splitter.split_documents(transcript_document)
 
-
         vector_store = QdrantVectorStore.from_documents(
            documents=chunks,
            embedding=embedding_model,
            url="http://localhost:6333",
-           collection_name=f"Playlist-{playlistId}"
+           collection_name=collection_name
        ) 
 
 @app.post('/ask')
