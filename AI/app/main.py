@@ -224,7 +224,7 @@ def ask(data: dict):
 
     response = openai_client.chat.completions.create(
 
-        model="gemini-3.5-flash",
+        model="gemini-3.6-flash",
         messages=[
 
             { "role": "system", "content": SYSTEM_PROMPT.format(context=context) },
