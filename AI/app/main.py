@@ -17,7 +17,11 @@ openai_client = OpenAI(
     base_url=os.getenv('GEMINI_BASE_URL')
 )
 
-qdrant_client = QdrantClient(url='http://localhost:6333')
+qdrant_client = QdrantClient(
+    url=os.getenv('QDRANT_CLUSTER_ENDPOINT'), 
+    api_key=os.getenv('QDRANT_CLUSTER_API_KEY'
+))
+
 @app.post('/analyze')
 def analyze(data: dict):
 
@@ -82,7 +86,8 @@ def ingest(data: dict):
         vector_store = QdrantVectorStore.from_documents(
            documents=chunks,
            embedding=embedding_model,
-           url="http://localhost:6333",
+           url=os.getenv('QDRANT_CLUSTER_ENDPOINT'),
+           api_key=os.getenv('QDRANT_CLUSTER_API_KEY'),
            collection_name=collection_name
        ) 
 
@@ -97,7 +102,8 @@ def ask(data: dict):
     )
 
     vector_db = QdrantVectorStore.from_existing_collection(
-        url='http://localhost:6333',
+        url=os.getenv('QDRANT_CLUSTER_ENDPOINT'),
+        api_key=os.getenv('QDRANT_CLUSTER_API_KEY'),
         embedding=embedding_model,
         collection_name=f"Playlist-{playlistId}"
     )
