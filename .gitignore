@@ -146,3 +146,5 @@ vite.config.ts.timestamp-*
 AI/.venv/
 AI/**/__pycache__/
 AI/**/*.pyc
+
+.DS_Store
