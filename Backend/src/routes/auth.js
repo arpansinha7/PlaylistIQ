@@ -10,10 +10,10 @@ const authRoutes = (passport, bcrypt, pool) => {
     );
 
     router.get("/auth/google/callback", passport.authenticate("google", {
-        failureRedirect: `${FRONTEND_BASE_URL}/login`,
+        failureRedirect: `${FRONTEND_SERVER_BASE_URL}/login`,
         }),
         (req, res) => {
-            res.redirect(`${FRONTEND_BASE_URL}/app`);
+            res.redirect(`${FRONTEND_SERVER_BASE_URL}/app`);
         }
     );
 
