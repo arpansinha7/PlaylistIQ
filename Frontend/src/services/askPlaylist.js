@@ -1,6 +1,6 @@
 const askPlaylist = async (playlistId, userQuery) => {
     
-    const response = await fetch("http://localhost:8080/api/youtube/playlist/ask", {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/youtube/playlist/ask`, {
 
         method: "POST",
         headers: {
