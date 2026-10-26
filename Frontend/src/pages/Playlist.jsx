@@ -6,7 +6,7 @@ import askPlaylist from '../services/askPlaylist';
 import Navbar from '../components/Navbar';
 import PlaylistInput from '../components/playlistInput';
 import PlaylistSidebar from '../components/playlistSideBar';
-import Chat from '../components/chat';
+import Chat from '../components/Chat';
 import QuestionBox from '../components/QuestionBox';
 
 
