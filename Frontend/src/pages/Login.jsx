@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from 'lucide-react';
 
 import { loginUser } from "../services/AutheticateUser";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import googleLogo from '../assets/google.svg';
 
 function Login()
@@ -103,7 +103,7 @@ function Login()
                 </button>
                 <p className="auth-switch">
                     Don't have an account?{" "}
-                    <a href="/register">Get Started</a>
+                    <Link to="/register">Get Started</Link>
                 </p>
             </div>
         </div>

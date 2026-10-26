@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { registerUser } from "../services/AutheticateUser";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 function Register()
 {
     const [ showPassword, setShowPassword ] = useState(false);
@@ -179,7 +178,7 @@ function Register()
 
                 <p className="auth-switch">
                     Already have an account?{" "}
-                    <a href="/login">Login</a>
+                    <Link to="/login">Login</Link>
                 </p>
 
             </div>
