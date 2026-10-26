@@ -4,8 +4,8 @@ import loadPlaylist from '../services/playlistAPI';
 import askPlaylist from '../services/askPlaylist';
 
 import Navbar from '../components/Navbar';
-import PlaylistInput from '../components/playlistInput';
-import PlaylistSidebar from '../components/playlistSideBar';
+import PlaylistInput from '../components/PlaylistInput';
+import PlaylistSidebar from '../components/PlaylistSidebar';
 import Chat from '../components/Chat';
 import QuestionBox from '../components/QuestionBox';
 
