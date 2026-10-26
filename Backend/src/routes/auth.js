@@ -1,4 +1,5 @@
 import express from 'express';
+import 'dotenv/config';
 
 const router = express.Router();
 
@@ -10,10 +11,10 @@ const authRoutes = (passport, bcrypt, pool) => {
     );
 
     router.get("/auth/google/callback", passport.authenticate("google", {
-        failureRedirect: `${FRONTEND_SERVER_BASE_URL}/login`,
+        failureRedirect: `${process.env.FRONTEND_SERVER_BASE_URL}/login`,
         }),
         (req, res) => {
-            res.redirect(`${FRONTEND_SERVER_BASE_URL}/app`);
+            res.redirect(`${process.env.FRONTEND_SERVER_BASE_URL}/app`);
         }
     );
 
