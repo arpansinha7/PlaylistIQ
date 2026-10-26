@@ -95,7 +95,7 @@ function Login()
                 type="button"
                 className="google-login-btn"
                 onClick={() => {
-                    window.location.href = "http://localhost:8080/auth/google";
+                    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
                 }}
                 >
                     <img src={googleLogo} alt="Google" />
