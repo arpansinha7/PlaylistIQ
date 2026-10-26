@@ -10,15 +10,11 @@ import authRoutes from './routes/auth.js';
 import youtubeRouter from './routes/youtube.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const { Pool } = pg;
 
 const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    connectionString: process.env.SUPABASE_POSTGRES_URI
 });
 
 app.use(cors());
@@ -42,7 +38,7 @@ passport.use(
         {
             clientID: process.env.OAUTH_CLIENT_ID,
             clientSecret: process.env.OAUTH_CLIENT_SECRET,
-            callbackURL: `http://localhost:${PORT}/auth/google/callback`
+            callbackURL: `${process.env.BACKEND_SERVER_BASE_URL}/auth/google/callback`
         },
 
         async (accessToken, refreshToken, profile, done) => {

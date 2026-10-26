@@ -88,7 +88,7 @@ router.post("/api/youtube/playlist", async (req, res) => {
 
 
 
-    const aiResponse = await fetch('http://localhost:8000/analyze', {
+    const aiResponse = await fetch(`${process.env.AI_SERVER_BASE_URL}/analyze`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -106,7 +106,7 @@ router.post("/api/youtube/playlist", async (req, res) => {
         return res.status(aiResponse.status).json(aiData);
     }
 
-    const ingestResponse = await fetch('http://localhost:8000/ingest', {
+    const ingestResponse = await fetch(`${process.env.AI_SERVER_BASE_URL}/ingest`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -167,30 +167,39 @@ router.post("/api/youtube/playlist/ask", async (req, res) => {
         });
     }
     
-    const aiResponse = await fetch('http://localhost:8000/ask', {
+    try
+    {
+        const aiResponse = await fetch(`${process.env.AI_SERVER_BASE_URL}/ask`, {
         
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        body: JSON.stringify({
-            playlistId,
-            userQuery
-        })
-    });
+            body: JSON.stringify({
+                playlistId,
+                userQuery
+            })
 
-    
+        });
     
     if(!aiResponse.ok)
     {
 
         const error_text = await aiResponse.text();
-        return res.status(aiResponse.status).json(error_text)
+        return res.status(aiResponse.status).json({
+            error: error_text
+        })
     }
 
     const aiData = await aiResponse.json();
     res.json(aiData);
+    }
+    catch(error)
+    {
+        console.error(error);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
 });
 
 export default router;
