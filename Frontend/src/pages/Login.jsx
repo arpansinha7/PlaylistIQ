@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
 import { loginUser } from "../services/AutheticateUser";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ function Login()
     const [ showPassword, setShowPassword ] = useState(false);
     const [ usernameOrEmail, setUsernameOrEmail ] = useState('');
     const [ password, setPassword ] = useState('');
+    const [ loading, setLoading ] = useState(false);
+
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -21,6 +23,7 @@ function Login()
             return;
         }
 
+        setLoading(true);
         try
         {
             await loginUser(usernameOrEmail, password);
@@ -82,8 +85,15 @@ function Login()
                         </button>
                     </div>
                   </div>  
-                    <button type="submit" className="auth-btn">
-                        Login
+                    <button type="submit" className="auth-btn" disabled={loading}>
+                        {loading ? (
+                            <>
+                                <LoaderCircle className="spinner" size={18} />
+                                Logging in...
+                            </>
+                        ):(
+                            "Login"
+                        )}
                     </button>
                 </form>
                 

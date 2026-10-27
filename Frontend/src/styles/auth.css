@@ -166,8 +166,12 @@
 
 .auth-btn {
     width: 100%;
-
     padding: 12px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 
     border: none;
     border-radius: 8px;
@@ -246,4 +250,19 @@
 
 .password-toggle:hover {
     color: #111827;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.auth-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }

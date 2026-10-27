@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { registerUser } from "../services/AutheticateUser";
 import { Link, useNavigate } from "react-router-dom";
 function Register()
@@ -13,6 +13,8 @@ function Register()
     const [ lastName, setLastName ] = useState('');
     const [ username, setUsername ] = useState('');
     const [ email, setEmail ] = useState('');
+    const [ loading, setLoading ] = useState(false);
+
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
@@ -29,7 +31,7 @@ function Register()
             alert("Passwords do not match.");
             return;
         }
-
+        setLoading(true);
         try
         {
             await registerUser(
@@ -50,6 +52,10 @@ function Register()
             console.log(error);
             alert(error.message);
 
+        }
+        finally
+        {
+            setLoading(false);
         }
     };
     return (
@@ -170,8 +176,15 @@ function Register()
                         </div>
                     </div>
 
-                    <button type="submit" className="auth-btn">
-                        Create Account
+                    <button type="submit" className="auth-btn" disabled={loading}>
+                        {loading ? (
+                            <>
+                                <LoaderCircle className="spinner" size={18} />
+                                Creating account...
+                            </>
+                        ):(
+                            "Create Account"
+                        )}
                     </button>
 
                 </form>
